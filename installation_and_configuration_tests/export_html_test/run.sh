@@ -12,13 +12,13 @@ docker exec -ti vhe sh -c "rm -rf $container_dir"
 docker exec -ti vhe sh -c "mkdir -p $container_dir/results"
 docker exec -ti vhe sh -c "mkdir -p $container_dir/input"
 
-docker cp $local_dir/input/example.md vhe:$container_dir/input/example.md
+for suffix in md rs; do
+  docker cp $local_dir/input/example.$suffix vhe:$container_dir/input/example.$suffix
+  docker exec -ti vhe sh -c "vim $container_dir/input/example.$suffix +TOhtml +'w $container_dir/results/$suffix.html' +qall!"
+  docker cp vhe:$container_dir/results/$suffix.html $local_dir/results/$suffix.html
+done
 
-docker exec -ti vhe sh -c "vim $container_dir/input/example.md +TOhtml +'w $container_dir/results/results.html' +qall!"
-
-docker cp vhe:$container_dir/results/results.html $local_dir/results/results.html
-
-if grep -q "Title.*Heading" $local_dir/results/results.html; then
+if grep -q "Title.*Heading" $local_dir/results/md.html; then
   echo OK - installation_and_configuration_tests/export_html_test
 else
   echo NOT OK - installation_and_configuration_tests/export_html_test
