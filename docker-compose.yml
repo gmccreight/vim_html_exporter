@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+  vhe:
+    image: vhe:latest
+    container_name: vhe
+    hostname: vhe
