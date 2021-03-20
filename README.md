@@ -1,6 +1,6 @@
-### Matiz (a 'materialized' laboratory)
+### Vim HTML exporter
 
-Run this:
+Open a file in Vim, then export it as HTML
 
 `./do-everything-from-scratch.sh`
 
@@ -9,7 +9,4 @@ checks and examples.
 
 You should see something like the following when it completes:
 
-    OK - installation_and_configuration_tests/materialized_is_running_test
-    OK - examples/example_010_from_site_join_sum
-
-Example 010 basically automates what is in this page: https://materialize.io/docs/get-started/
+    OK - installation_and_configuration_tests/export_html_test
