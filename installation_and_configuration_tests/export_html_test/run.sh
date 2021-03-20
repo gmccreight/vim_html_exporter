@@ -10,12 +10,15 @@ mkdir $local_dir/results
 # Setup container
 docker exec -ti vhe sh -c "rm -rf $container_dir"
 docker exec -ti vhe sh -c "mkdir -p $container_dir/results"
+docker exec -ti vhe sh -c "mkdir -p $container_dir/input"
 
-docker exec -ti vhe sh -c "echo html > $container_dir/results/results.html"
+docker cp $local_dir/input/example.md vhe:$container_dir/input/example.md
+
+docker exec -ti vhe sh -c "vim $container_dir/input/example.md +TOhtml +'w $container_dir/results/results.html' +qall!"
+
 docker cp vhe:$container_dir/results/results.html $local_dir/results/results.html
- 
-if [ `grep html $local_dir/results/results.html` ]; then
-  # The psql output contains the uppercase column name SOURCES
+
+if grep -q "Title.*Heading" $local_dir/results/results.html; then
   echo OK - installation_and_configuration_tests/export_html_test
 else
   echo NOT OK - installation_and_configuration_tests/export_html_test
